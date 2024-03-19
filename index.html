@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .navbr{
+            width:100%;
+            /* background-color:teal; */
+            height:4rem;
+            padding:auto;
+        }
+        .navbr>div{
+            width:60%;
+            height:2rem;
+            margin:auto;
+            padding-top:1rem;
+            /* margin-top:1rem; */
+        }
+        #it{
+            height:2rem;
+            width:90%;
+        }
+        #sb{
+            height:2.3rem;
+            width:8%; 
+        }
+        #movie_container{
+            width:90%;
+            margin:auto;
+            margin-top:20px;
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:10px;
+        }
+        #movie_container>div{
+            /* border:1px solid grey; */
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+        #movie_container>div img{
+            width:100%;
+            height:350px;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <div class="navbr">
+            <div>
+            <input  id='it' type="text" placeholder="Search">
+            <button id="sb">Search</button>
+          
+            </div>
+       </div>
+        <div id="movie_container">
+
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    let intt=document.getElementById('it')
+    let btt=document.querySelector('#sb')
+    btt.addEventListener('click',function(){
+        pre()
+    })
+    let cnt=document.querySelector('#movie_container')
+    function pre(){
+        let i=intt.value
+        fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=13869e8e&s=${i}`)
+        .then (function(res){
+             return res.json()
+        })
+        .then(function(res){
+           
+            showdata(res.Search)
+        })
+        cnt.innerHTML=`<b>Loading...</b>`
+     }
+    let showdata=(data)=>{
+        cnt.innerHTML=null;
+        data.forEach(function(ele){
+            let div=document.createElement('div')
+            let poster=document.createElement('img')
+            poster.src=ele.Poster
+            let title=document.createElement('h2')
+            title.innerHTML=ele.Title
+            div.append(poster,title)
+            cnt.append(div)
+        })
+
+    }
+
+
+</script>
